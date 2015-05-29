@@ -1,3 +1,9 @@
+v1.7 - 28-05-2015 - Kozlika & Nikrou
+* suppression d'image et gestion de l'indicateur via css
+* ajout de classes sur chaque liste (année/mois)
+* application de la class .open sur l'item ouvert par défaut
+* application de la class .open sur l'item correspondant au mois actif en cas de consulation des archives
+
 v1.6 - 25-04-2015 - Pierre Van Glabeke
 * modif appel css
 * ajout localisation

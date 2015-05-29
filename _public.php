@@ -1,10 +1,10 @@
 <?php
 # -- BEGIN LICENSE BLOCK ----------------------------------
 # This file is part of shortArchives, a plugin for Dotclear.
-# 
+#
 # Copyright (c) 2009-2015 - annso and contributors
 # contact@as-i-am.fr
-# 
+#
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -39,28 +39,38 @@ class tplShortArchives
 			($w->homeonly == 2 && $core->url->type == 'default')) {
 			return;
 		}
-		
+
         $params = array();
         $params['type'] = 'month';
-        $rs = $core->blog->getDates($params); 
+        $rs = $core->blog->getDates($params);
         unset($params);
         if ($rs->isEmpty()) {
             return;
         }
 
+        $active_year = null;
+        if (($core->url->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`',$core->url->args,$matches)) {
+            $active_year = $matches[1];
+        }
+
 		$posts = array();
         while ($rs->fetch()) {
-			$posts[dt::dt2str(__('%Y'),$rs->dt)][] = array('url' => $rs->url($core), 
-					  'date' => html::escapeHTML(dt::dt2str(__('%B'),$rs->dt)), 
+			$posts[dt::dt2str(__('%Y'),$rs->dt)][] = array('url' => $rs->url($core),
+					  'date' => html::escapeHTML(dt::dt2str(__('%B'),$rs->dt)),
 					  'nbpost' => $rs->nb_post);
         }
 
 		$res =
 		($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
-		'<ul>';
-		
-		foreach($posts as $annee=>$post) {
-			$res .= '<li><span>'.$annee.'</span><ul>';
+		'<ul class="arch-years">';
+
+		foreach($posts as $annee => $post) {
+            if (!is_null($active_year) && $active_year == $annee) {
+                $res .= '<li class="open">';
+            } else {
+                $res .= '<li>';
+            }
+			$res .= '<span>'.$annee.'</span><ul class="arch-months">';
 			for($i=0; $i<sizeof($post); $i++) {
 				$res .=
 					'<li><a href="'.$post[$i]['url'].'">'.$post[$i]['date'].'</a>'.

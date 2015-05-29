@@ -1,5 +1,41 @@
-.shortArchives li a.archives-year {
-	background: url(index.php?pf=shortArchives/img/bullet_arrow_down.png)  left center no-repeat;
-	padding-left: 20px;
-} 
-.shortArchives li ul li { list-style-type: none;}
+@charset "UTF-8";
+
+/* ------------------------ shortArchives styles */
+.shortArchives .arch-years,
+.shortArchives .arch-months {
+  margin-left: 0;
+  list-style-type: none;
+}
+
+/* liste années */
+.shortArchives .arch-years > li {
+  padding-left: 0;
+}
+
+.shortArchives .arch-months {
+  margin: .5em 0 .5em 1.5em;
+}
+
+/* année fermée */
+.shortArchives a.archives-year {
+  text-decoration: none;
+}
+.shortArchives a.archives-year:before {
+  padding-right: .5em;
+  color: #aaa;
+  content: "\25b8";
+  speak: none;
+}
+
+/* année ouverte */
+.shortArchives .open .archives-year {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.shortArchives .open .archives-year:before {
+  padding-right: .5em;
+  color: #333;
+  content: "\25be";
+  speak: none;
+}
