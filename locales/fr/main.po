@@ -14,3 +14,10 @@ msgstr "Afficher les archives du blog dans un menu accordéon, trié par années
 
 msgid "Blog Archive List an accordion menu, sorted by year"
 msgstr "Liste des archives du blog dans un menu accordéon, trié par années"
+
+msgid "Link to all archives:"
+msgstr "Lien vers toutes les archives :"
+
+msgid "All archives"
+msgstr "Toutes les archives"
+

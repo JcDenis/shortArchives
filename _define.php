@@ -16,7 +16,7 @@ $this->registerModule(
 	/* Name */			    "shortArchives",
 	/* Description*/		"Display blog archives in an accordion menu, sorted by year",
 	/* Author */			"annso, Pierre Van Glabeke",
-	/* Version */			"1.7",
+	/* Version */			"1.8",
 	/* Properties */
 	array(
 		'permissions' => 'usage,contentadmin',

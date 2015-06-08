@@ -81,6 +81,13 @@ class tplShortArchives
 		}
         $res .= '</ul>';
 
+		if ($core->url->getBase('archive') && !is_null($w->allarchivesslinktitle) && $w->allarchivesslinktitle !== '')
+		{
+			$res .=
+			'<p><strong><a href="'.$core->blog->url.$core->url->getURLFor("archive").'">'.
+			html::escapeHTML($w->allarchivesslinktitle).'</a></strong></p>';
+		}
+
 		return $w->renderDiv($w->content_only,'shortArchives '.$w->class,'',$res);
 	}
 }

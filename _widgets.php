@@ -22,6 +22,7 @@ class shortArchivesWidgets
 			__('Blog Archive List an accordion menu, sorted by year'));
 		$w->shortArchives->setting('title',__('Title:'),__('Archives'));
 		$w->shortArchives->setting('postcount',__('With entries counts'),1,'check');
+		$w->shortArchives->setting('allarchivesslinktitle',__('Link to all archives:'),__('All archives'));
 		$w->shortArchives->setting('homeonly',__('Display on:'),0,'combo',
 			array(
 				__('All pages') => 0,
