@@ -22,7 +22,7 @@ class publicShortArchives
 	{
 		$url = $core->blog->getQmarkURL().'pf='.basename(dirname(__FILE__));
 		echo '<script type="text/javascript" src="'.$url.'/js/accordion.js"></script>'."\n";
-		echo '<link rel="stylesheet" type="text/css" media="projection, screen" href="'.$url."/css/shortArchives.css\" />\n";
+		echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$url."/css/shortArchives.css\" />\n";
 	}
 }
 
