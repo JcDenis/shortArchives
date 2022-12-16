@@ -26,7 +26,7 @@ Add a public widget that list links to archives by year.
 First install _shortArchives_, manualy from a zip package or from 
 Dotaddict repository. (See Dotclear's documentation to know how do this)
 
-You should add widget to show lunar phases on your blog.
+You should add widget to show archives list on your blog.
 
 ## LINKS
 
