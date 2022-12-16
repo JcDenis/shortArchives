@@ -1,16 +1,14 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: \n"
+"Project-Id-Version: shortArchives 1.9\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: brol <contact@brol.info>\n"
+"PO-Revision-Date: 2022-12-16T22:00:09+00:00\n"
+"Last-Translator: Jean-Crhistian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "Display blog archives in an accordion menu, sorted by year"
-msgstr "Afficher les archives du blog dans un menu accordéon, trié par années"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "Blog Archive List an accordion menu, sorted by year"
 msgstr "Liste des archives du blog dans un menu accordéon, trié par années"
@@ -20,4 +18,7 @@ msgstr "Lien vers toutes les archives :"
 
 msgid "All archives"
 msgstr "Toutes les archives"
+
+msgid "Display blog archives in an accordion menu, sorted by year"
+msgstr "Afficher les archives du blog dans un menu accordéon, trié par années"
 

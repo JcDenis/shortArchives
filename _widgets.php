@@ -1,37 +1,98 @@
 <?php
-# -- BEGIN LICENSE BLOCK ----------------------------------
-# This file is part of shortArchives, a plugin for Dotclear.
-# 
-# Copyright (c) 2009-2015 - annso and contributors
-# contact@as-i-am.fr
-# 
-# Licensed under the GPL version 2.0 license.
-# A copy of this license is available in LICENSE file or at
-# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-# -- END LICENSE BLOCK ------------------------------------
-if (!defined('DC_RC_PATH')) { return; }
+/**
+ * @brief shortArchives, a plugin for Dotclear 2
+ *
+ * @package Dotclear
+ * @subpackage Plugin
+ *
+ * @author annso, Pierre Van Glabeke and Contributors
+ *
+ * @copyright Jean-Crhistian Denis
+ * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
-$core->addBehavior('initWidgets',array('shortArchivesWidgets','initWidgets'));
+dcCore::app()->addBehavior('initWidgets', ['shortArchivesWidgets','initWidgets']);
 
 class shortArchivesWidgets
 {
-	public static function initWidgets($w)
-	{
-		$w->create('shortArchives',__('Short Archives'), array('tplShortArchives','shortArchivesWidgets'),
-			null,
-			__('Blog Archive List an accordion menu, sorted by year'));
-		$w->shortArchives->setting('title',__('Title:'),__('Archives'));
-		$w->shortArchives->setting('postcount',__('With entries counts'),1,'check');
-		$w->shortArchives->setting('allarchivesslinktitle',__('Link to all archives:'),__('All archives'));
-		$w->shortArchives->setting('homeonly',__('Display on:'),0,'combo',
-			array(
-				__('All pages') => 0,
-				__('Home page only') => 1,
-				__('Except on home page') => 2
-				)
-		);
-    $w->shortArchives->setting('content_only',__('Content only'),0,'check');
-    $w->shortArchives->setting('class',__('CSS class:'),'');
-		$w->shortArchives->setting('offline',__('Offline'),0,'check');
-	}
+    public static function initWidgets($w)
+    {
+        $w->create(
+            'shortArchives',
+            __('Short Archives'),
+            ['shortArchivesWidgets', 'shortArchivesWidgets'],
+            null,
+            __('Blog Archive List an accordion menu, sorted by year')
+        )
+        ->addTitle(__('Archives'))
+        ->setting('postcount', __('With entries counts'), 1, 'check')
+        ->setting('allarchivesslinktitle', __('Link to all archives:'), __('All archives'))
+        ->addHomeOnly()
+        ->addContentOnly()
+        ->addClass()
+        ->addOffline();
+    }
+
+    public static function shortArchivesWidgets($w)
+    {
+        if ($w->offline) {
+            return;
+        }
+
+        if (!$w->checkHomeOnly(dcCore::app()->url->type)) {
+            return;
+        }
+
+        $rs = dcCore::app()->blog->getDates(['type' => 'month']);
+        if ($rs->isEmpty()) {
+            return;
+        }
+
+        $active_year = null;
+        if ((dcCore::app()->url->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`', dcCore::app()->url->args, $matches)) {
+            $active_year = $matches[1];
+        }
+
+        $posts = [];
+        while ($rs->fetch()) {
+            $posts[dt::dt2str(__('%Y'), $rs->dt)][] = [
+                'url'    => $rs->url(),
+                'date'   => html::escapeHTML(dt::dt2str(__('%B'), $rs->dt)),
+                'nbpost' => $rs->nb_post,
+            ];
+        }
+
+        $res = '<ul class="arch-years">';
+
+        foreach ($posts as $annee => $post) {
+            if (!is_null($active_year) && $active_year == $annee) {
+                $res .= '<li class="open">';
+            } else {
+                $res .= '<li>';
+            }
+            $res .= '<span>' . $annee . '</span><ul class="arch-months">';
+            for ($i = 0; $i < sizeof($post); $i++) {
+                $res .= '<li><a href="' . $post[$i]['url'] . '">' . $post[$i]['date'] . '</a>' .
+                    ($w->postcount ? ' (' . $post[$i]['nbpost'] . ')' : '') .
+                    '</li>';
+            }
+            $res .= '</ul></li>';
+        }
+        $res .= '</ul>';
+
+        if (dcCore::app()->url->getBase('archive') && !is_null($w->allarchivesslinktitle) && $w->allarchivesslinktitle !== '') {
+            $res .= '<p><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getURLFor('archive') . '">' .
+            html::escapeHTML($w->allarchivesslinktitle) . '</a></strong></p>';
+        }
+
+        return $w->renderDiv(
+            $w->content_only,
+            'shortArchives ' . $w->class,
+            '',
+            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') . $res
+        );
+    }
 }
