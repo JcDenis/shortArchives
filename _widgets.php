@@ -52,7 +52,7 @@ class shortArchivesWidgets
         }
 
         $active_year = null;
-        if ((dcCore::app()->url->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`', dcCore::app()->url->args, $matches)) {
+        if ((dcCore::app()->url->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`', (string) dcCore::app()->url->args, $matches)) {
             $active_year = $matches[1];
         }
 
