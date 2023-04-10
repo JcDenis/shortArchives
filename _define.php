@@ -7,7 +7,7 @@
  *
  * @author annso, Pierre Van Glabeke and Contributors
  *
- * @copyright Jean-Crhistian Denis
+ * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 if (!defined('DC_RC_PATH')) {
@@ -18,9 +18,9 @@ $this->registerModule(
     'shortArchives',
     'Display blog archives in an accordion menu, sorted by year',
     'annso, Pierre Van Glabeke and Contributors',
-    '1.9',
+    '2.0',
     [
-        'requires'    => [['core', '2.24']],
+        'requires'    => [['core', '2.26']],
         'permissions' => dcCore::app()->auth->makePermissions([
             dcAuth::PERMISSION_ADMIN,
         ]),
