@@ -7,17 +7,41 @@
  *
  * @author annso, Pierre Van Glabeke and Contributors
  *
- * @copyright Jean-Crhistian Denis
+ * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return null;
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\shortArchives;
+
+use dcCore;
+use dcNsProcess;
+use dcUtils;
+
+class Frontend extends dcNsProcess
+{
+    public static function init(): bool
+    {
+        static::$init = My::phpCompliant();
+
+        return static::$init;
+    }
+
+    public static function process(): bool
+    {
+        if (!static::$init) {
+            return false;
+        }
+
+        dcCore::app()->addBehaviors([
+            'initWidgets' => [Widgets::class, 'initWidgets'],
+            'publicHeadContent', function (): void {
+                echo
+                dcUtils::jsModuleLoad(My::id() . '/js/accordion.js') .
+                dcUtils::cssModuleLoad(My::id() . '/css/frontend.css');
+            },
+        ]);
+
+        return true;
+    }
 }
-
-require __DIR__ . '/_widgets.php';
-
-dcCore::app()->addBehavior('publicHeadContent', function () {
-    echo
-    dcUtils::jsModuleLoad(basename(__DIR__) . '/js/accordion.js') .
-    dcUtils::cssModuleLoad(basename(__DIR__) . '/css/shortArchives.css');
-});

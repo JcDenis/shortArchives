@@ -7,23 +7,28 @@
  *
  * @author annso, Pierre Van Glabeke and Contributors
  *
- * @copyright Jean-Crhistian Denis
+ * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
+declare(strict_types=1);
 
-dcCore::app()->addBehavior('initWidgets', ['shortArchivesWidgets','initWidgets']);
+namespace Dotclear\Plugin\shortArchives;
 
-class shortArchivesWidgets
+use dcCore;
+use Dotclear\Helper\Html\Html;
+use Dotclear\Plugin\widgets\WidgetsStack;
+use Dotclear\Plugin\widgets\WidgetsElement;
+use dt;
+
+class Widgets
 {
-    public static function initWidgets($w)
+    public static function initWidgets(WidgetsStack $w): void
     {
+        #Top c
         $w->create(
-            'shortArchives',
-            __('Short Archives'),
-            ['shortArchivesWidgets', 'shortArchivesWidgets'],
+            My::id(),
+            My::name(),
+            [self::class, 'parseWidget'],
             null,
             __('Blog Archive List an accordion menu, sorted by year')
         )
@@ -36,19 +41,15 @@ class shortArchivesWidgets
         ->addOffline();
     }
 
-    public static function shortArchivesWidgets($w)
+    public static function parseWidget(WidgetsElement $w): string
     {
-        if ($w->offline) {
-            return;
-        }
-
-        if (!$w->checkHomeOnly(dcCore::app()->url->type)) {
-            return;
+        if ($w->offline || !$w->checkHomeOnly(dcCore::app()->url->type)) {
+            return '';
         }
 
         $rs = dcCore::app()->blog->getDates(['type' => 'month']);
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         $active_year = null;
@@ -58,10 +59,10 @@ class shortArchivesWidgets
 
         $posts = [];
         while ($rs->fetch()) {
-            $posts[dt::dt2str(__('%Y'), $rs->dt)][] = [
+            $posts[dt::dt2str(__('%Y'), $rs->f('dt'))][] = [
                 'url'    => $rs->url(),
-                'date'   => html::escapeHTML(dt::dt2str(__('%B'), $rs->dt)),
-                'nbpost' => $rs->nb_post,
+                'date'   => Html::escapeHTML(dt::dt2str(__('%B'), $rs->f('dt'))),
+                'nbpost' => $rs->f('nb_post'),
             ];
         }
 
@@ -85,14 +86,14 @@ class shortArchivesWidgets
 
         if (dcCore::app()->url->getBase('archive') && !is_null($w->allarchivesslinktitle) && $w->allarchivesslinktitle !== '') {
             $res .= '<p><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getURLFor('archive') . '">' .
-            html::escapeHTML($w->allarchivesslinktitle) . '</a></strong></p>';
+            Html::escapeHTML($w->allarchivesslinktitle) . '</a></strong></p>';
         }
 
         return $w->renderDiv(
-            $w->content_only,
-            'shortArchives ' . $w->class,
+            (bool) $w->content_only,
+            My::id() . ' ' . $w->class,
             '',
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') . $res
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') . $res
         );
     }
 }
