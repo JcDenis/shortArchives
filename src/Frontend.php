@@ -35,7 +35,7 @@ class Frontend extends dcNsProcess
 
         dcCore::app()->addBehaviors([
             'initWidgets' => [Widgets::class, 'initWidgets'],
-            'publicHeadContent', function (): void {
+            'publicHeadContent' => function (): void {
                 echo
                 dcUtils::jsModuleLoad(My::id() . '/js/accordion.js') .
                 dcUtils::cssModuleLoad(My::id() . '/css/frontend.css');
