@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\shortArchives;
 
 use dcCore;
+use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsStack;
 use Dotclear\Plugin\widgets\WidgetsElement;
-use dt;
 
 class Widgets
 {
@@ -59,9 +59,9 @@ class Widgets
 
         $posts = [];
         while ($rs->fetch()) {
-            $posts[dt::dt2str(__('%Y'), $rs->f('dt'))][] = [
+            $posts[Date::dt2str(__('%Y'), $rs->f('dt'))][] = [
                 'url'    => $rs->url(),
-                'date'   => Html::escapeHTML(dt::dt2str(__('%B'), $rs->f('dt'))),
+                'date'   => Html::escapeHTML(Date::dt2str(__('%B'), $rs->f('dt'))),
                 'nbpost' => $rs->f('nb_post'),
             ];
         }
