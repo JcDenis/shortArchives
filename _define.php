@@ -18,7 +18,7 @@ $this->registerModule(
     'shortArchives',
     'Display blog archives in an accordion menu, sorted by year',
     'annso, Pierre Van Glabeke and Contributors',
-    '2.0',
+    '2.0.1',
     [
         'requires'    => [['core', '2.26']],
         'permissions' => dcCore::app()->auth->makePermissions([
