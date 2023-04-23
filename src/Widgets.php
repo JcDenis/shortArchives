@@ -43,7 +43,12 @@ class Widgets
 
     public static function parseWidget(WidgetsElement $w): string
     {
-        if ($w->offline || !$w->checkHomeOnly(dcCore::app()->url->type)) {
+        // nullsafe
+        if (is_null(dcCore::app()->blog)) {
+            return '';
+        }
+
+        if ($w->__get('offline') || !$w->checkHomeOnly(dcCore::app()->url->type)) {
             return '';
         }
 
@@ -60,7 +65,7 @@ class Widgets
         $posts = [];
         while ($rs->fetch()) {
             $posts[Date::dt2str(__('%Y'), $rs->f('dt'))][] = [
-                'url'    => $rs->url(),
+                'url'    => $rs->__call('url', []),
                 'date'   => Html::escapeHTML(Date::dt2str(__('%B'), $rs->f('dt'))),
                 'nbpost' => $rs->f('nb_post'),
             ];
@@ -77,23 +82,23 @@ class Widgets
             $res .= '<span>' . $annee . '</span><ul class="arch-months">';
             for ($i = 0; $i < sizeof($post); $i++) {
                 $res .= '<li><a href="' . $post[$i]['url'] . '">' . $post[$i]['date'] . '</a>' .
-                    ($w->postcount ? ' (' . $post[$i]['nbpost'] . ')' : '') .
+                    ($w->__get('postcount') ? ' (' . $post[$i]['nbpost'] . ')' : '') .
                     '</li>';
             }
             $res .= '</ul></li>';
         }
         $res .= '</ul>';
 
-        if (dcCore::app()->url->getBase('archive') && !is_null($w->allarchivesslinktitle) && $w->allarchivesslinktitle !== '') {
+        if (dcCore::app()->url->getBase('archive') && !is_null($w->__get('allarchivesslinktitle')) && $w->__get('allarchivesslinktitle') !== '') {
             $res .= '<p><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getURLFor('archive') . '">' .
-            Html::escapeHTML($w->allarchivesslinktitle) . '</a></strong></p>';
+            Html::escapeHTML($w->__get('allarchivesslinktitle')) . '</a></strong></p>';
         }
 
         return $w->renderDiv(
-            (bool) $w->content_only,
-            My::id() . ' ' . $w->class,
+            (bool) $w->__get('content_only'),
+            My::id() . ' ' . $w->__get('class'),
             '',
-            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') . $res
+            ($w->__get('title') ? $w->renderTitle(Html::escapeHTML($w->__get('title'))) : '') . $res
         );
     }
 }
