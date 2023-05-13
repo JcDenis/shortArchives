@@ -1,3 +1,7 @@
+2.0.2 - 2023.05.13
+* require Dotclear 2.26
+* cleanup for dotclear 2.26 stable
+
 2.0.1 - 2023.04.23
 * require Dotclear 2.26
 * use latest dotclear namespace

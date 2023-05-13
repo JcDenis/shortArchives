@@ -2,10 +2,10 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="shortArchives">
     <name>shortArchives</name>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <author>annso, Pierre Van Glabeke and Contributors</author>
     <desc>Display blog archives in an accordion menu, sorted by year</desc>
-    <file>https://github.com/JcDenis/shortArchives/releases/download/v2.0.1/plugin-shortArchives.zip</file>
+    <file>https://github.com/JcDenis/shortArchives/releases/download/v2.0.2/plugin-shortArchives.zip</file>
     <da:dcmin>2.26</da:dcmin>
     <da:details>http://plugins.dotaddict.org/dc2/details/shortArchives</da:details>
     <da:support>http://forum.dotclear.org/viewtopic.php?pid=321044#p321044</da:support>
