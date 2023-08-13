@@ -15,21 +15,18 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\shortArchives;
 
 use dcCore;
-use dcNsProcess;
-use dcUtils;
+use Dotclear\Core\Process;
 
-class Frontend extends dcNsProcess
+class Frontend extends Process
 {
     public static function init(): bool
     {
-        static::$init = defined('DC_RC_PATH');
-
-        return static::$init;
+        return self::status(My::checkContext(My::FRONTEND));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -37,8 +34,8 @@ class Frontend extends dcNsProcess
             'initWidgets'       => [Widgets::class, 'initWidgets'],
             'publicHeadContent' => function (): void {
                 echo
-                dcUtils::jsModuleLoad(My::id() . '/js/accordion.js') .
-                dcUtils::cssModuleLoad(My::id() . '/css/frontend.css');
+                My::jsLoad('accordion') .
+                My::cssLoad('frontend');
             },
         ]);
 
