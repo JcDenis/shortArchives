@@ -18,15 +18,15 @@ $this->registerModule(
     'shortArchives',
     'Display blog archives in an accordion menu, sorted by year',
     'annso, Pierre Van Glabeke and Contributors',
-    '2.0.2',
+    '2.1',
     [
-        'requires'    => [['core', '2.26']],
+        'requires'    => [['core', '2.27']],
         'permissions' => dcCore::app()->auth->makePermissions([
             dcCore::app()->auth::PERMISSION_ADMIN,
         ]),
         'type'       => 'plugin',
-        'support'    => 'http://forum.dotclear.org/viewtopic.php?pid=321044#p321044',
-        'details'    => 'http://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
-        'repository' => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
+        'support'    => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/issues',
+        'details'    => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/src/branch/master/README.md',
+        'repository' => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/raw/branch/master/dcstore.xml',
     ]
 );
