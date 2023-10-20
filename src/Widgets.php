@@ -1,25 +1,23 @@
 <?php
-/**
- * @brief shortArchives, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author annso, Pierre Van Glabeke and Contributors
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\shortArchives;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsStack;
 use Dotclear\Plugin\widgets\WidgetsElement;
 
+/**
+ * @brief       shortArchives widgets class.
+ * @ingroup     shortArchives
+ *
+ * @author      annso (author)
+ * @author      Jean-Christian Denis (latest)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class Widgets
 {
     public static function initWidgets(WidgetsStack $w): void
@@ -28,7 +26,7 @@ class Widgets
         $w->create(
             My::id(),
             My::name(),
-            [self::class, 'parseWidget'],
+            self::parseWidget(...),
             null,
             __('Blog Archive List an accordion menu, sorted by year')
         )
@@ -43,22 +41,20 @@ class Widgets
 
     public static function parseWidget(WidgetsElement $w): string
     {
-        // nullsafe
-        if (is_null(dcCore::app()->blog)) {
+        if (!App::blog()->isDefined()
+            || $w->__get('offline')
+            || !$w->checkHomeOnly(App::url()->type)
+        ) {
             return '';
         }
 
-        if ($w->__get('offline') || !$w->checkHomeOnly(dcCore::app()->url->type)) {
-            return '';
-        }
-
-        $rs = dcCore::app()->blog->getDates(['type' => 'month']);
+        $rs = App::blog()->getDates(['type' => 'month']);
         if ($rs->isEmpty()) {
             return '';
         }
 
         $active_year = null;
-        if ((dcCore::app()->url->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`', (string) dcCore::app()->url->args, $matches)) {
+        if ((App::url()->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`', (string) App::url()->args, $matches)) {
             $active_year = $matches[1];
         }
 
@@ -89,8 +85,8 @@ class Widgets
         }
         $res .= '</ul>';
 
-        if (dcCore::app()->url->getBase('archive') && !is_null($w->__get('allarchivesslinktitle')) && $w->__get('allarchivesslinktitle') !== '') {
-            $res .= '<p><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getURLFor('archive') . '">' .
+        if (App::url()->getBase('archive') && !is_null($w->__get('allarchivesslinktitle')) && $w->__get('allarchivesslinktitle') !== '') {
+            $res .= '<p><strong><a href="' . App::blog()->url() . App::url()->getURLFor('archive') . '">' .
             Html::escapeHTML($w->__get('allarchivesslinktitle')) . '</a></strong></p>';
         }
 
