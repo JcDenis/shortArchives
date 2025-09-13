@@ -18,9 +18,9 @@ $this->registerModule(
     'shortArchives',
     'Display blog archives in an accordion menu, sorted by year',
     'annso, Pierre Van Glabeke and Contributors',
-    '2.2.1',
+    '2.3',
     [
-        'requires'    => [['core', '2.28']],
+        'requires'    => [['core', '2.36']],
         'permissions' => 'My',
         'type'        => 'plugin',
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',

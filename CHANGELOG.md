@@ -1,5 +1,9 @@
 shortArchives 2.2.1 - 2025.03.02
 ===========================================================
+* Bump Dotclear from 2.28 to 2.36
+
+shortArchives 2.2.1 - 2025.03.02
+===========================================================
 * Require Dotclear 2.28
 * Require PHP 8.1
 * Fix repository URLs
