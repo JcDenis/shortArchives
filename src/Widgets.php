@@ -42,7 +42,7 @@ class Widgets
     public static function parseWidget(WidgetsElement $w): string
     {
         if (!App::blog()->isDefined()
-            || $w->__get('offline')
+            || $w->get('offline')
             || !$w->checkHomeOnly(App::url()->type)
         ) {
             return '';
@@ -78,23 +78,23 @@ class Widgets
             $res .= '<span>' . $annee . '</span><ul class="arch-months">';
             for ($i = 0; $i < sizeof($post); $i++) {
                 $res .= '<li><a href="' . $post[$i]['url'] . '">' . $post[$i]['date'] . '</a>' .
-                    ($w->__get('postcount') ? ' (' . $post[$i]['nbpost'] . ')' : '') .
+                    ($w->get('postcount') ? ' (' . $post[$i]['nbpost'] . ')' : '') .
                     '</li>';
             }
             $res .= '</ul></li>';
         }
         $res .= '</ul>';
 
-        if (App::url()->getBase('archive') && !is_null($w->__get('allarchivesslinktitle')) && $w->__get('allarchivesslinktitle') !== '') {
+        if (App::url()->getBase('archive') && !is_null($w->get('allarchivesslinktitle')) && $w->get('allarchivesslinktitle') !== '') {
             $res .= '<p><strong><a href="' . App::blog()->url() . App::url()->getURLFor('archive') . '">' .
-            Html::escapeHTML($w->__get('allarchivesslinktitle')) . '</a></strong></p>';
+            Html::escapeHTML($w->get('allarchivesslinktitle')) . '</a></strong></p>';
         }
 
         return $w->renderDiv(
-            (bool) $w->__get('content_only'),
-            My::id() . ' ' . $w->__get('class'),
+            (bool) $w->get('content_only'),
+            My::id() . ' ' . $w->get('class'),
             '',
-            ($w->__get('title') ? $w->renderTitle(Html::escapeHTML($w->__get('title'))) : '') . $res
+            ($w->get('title') ? $w->renderTitle(Html::escapeHTML($w->get('title'))) : '') . $res
         );
     }
 }
