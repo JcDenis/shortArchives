@@ -1,3 +1,8 @@
+shortArchives 2.4 - 2026.11.05
+===========================================================
+* Bump Dotclear from 2.36 to 2.39
+* Code review (phpstan max)
+
 shortArchives 2.2.1 - 2025.03.02
 ===========================================================
 * Bump Dotclear from 2.28 to 2.36

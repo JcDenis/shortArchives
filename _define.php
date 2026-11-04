@@ -22,7 +22,7 @@ $this->registerModule(
     'shortArchives',
     'Display blog archives in an accordion menu, sorted by year',
     'annso, Pierre Van Glabeke and Contributors',
-    '2.3',
+    '2.4',
     [
         'requires'    => [['core', '2.39']],
         'permissions' => 'My',
