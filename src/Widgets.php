@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\shortArchives;
 
 use Dotclear\App;
+use Dotclear\Database\MetaRecord;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsStack;
@@ -43,7 +44,7 @@ class Widgets
     {
         if (!App::blog()->isDefined()
             || $w->get('offline')
-            || !$w->checkHomeOnly(App::url()->type)
+            || !$w->checkHomeOnly(App::url()->getType())
         ) {
             return '';
         }
@@ -54,16 +55,22 @@ class Widgets
         }
 
         $active_year = null;
-        if ((App::url()->type == 'archive') && preg_match('`^/([0-9]{4})/([0-9]{2})$`', (string) App::url()->args, $matches)) {
-            $active_year = $matches[1];
+        if (App::url()->getType() === 'archive'
+            && App::frontend()->context()->exists('archives')
+            && ($archives = App::frontend()->context()->__get('archives')) instanceof MetaRecord
+            && !$archives->isEmpty()
+        ) {
+            $active_year = Date::dt2str(__('%Y'), $archives->strField('dt'));
         }
 
         $posts = [];
         while ($rs->fetch()) {
-            $posts[Date::dt2str(__('%Y'), $rs->f('dt'))][] = [
-                'url'    => $rs->__call('url', []),
-                'date'   => Html::escapeHTML(Date::dt2str(__('%B'), $rs->f('dt'))),
-                'nbpost' => $rs->f('nb_post'),
+            $url = $rs->__call('url', []);
+
+            $posts[Date::dt2str(__('%Y'), $rs->strField('dt'))][] = [
+                'url'    => is_string($url) ? $url : '',
+                'date'   => Html::escapeHTML(Date::dt2str(__('%B'), $rs->strField('dt'))),
+                'nbpost' => $rs->intField('nb_post'),
             ];
         }
 
@@ -85,16 +92,20 @@ class Widgets
         }
         $res .= '</ul>';
 
-        if (App::url()->getBase('archive') && !is_null($w->get('allarchivesslinktitle')) && $w->get('allarchivesslinktitle') !== '') {
+        $link = $w->get('allarchivesslinktitle');
+        if (App::url()->getBase('archive') && is_string($link) && $link !== '') {
             $res .= '<p><strong><a href="' . App::blog()->url() . App::url()->getURLFor('archive') . '">' .
-            Html::escapeHTML($w->get('allarchivesslinktitle')) . '</a></strong></p>';
+            Html::escapeHTML($link) . '</a></strong></p>';
         }
+
+        $class = $w->get('class');
+        $title = $w->get('title');
 
         return $w->renderDiv(
             (bool) $w->get('content_only'),
-            My::id() . ' ' . $w->get('class'),
+            My::id() . ' ' . (is_string($class) ? $class : ''),
             '',
-            ($w->get('title') ? $w->renderTitle(Html::escapeHTML($w->get('title'))) : '') . $res
+            (is_string($title) && $title !== '' ? $w->renderTitle(Html::escapeHTML($title)) : '') . $res
         );
     }
 }
