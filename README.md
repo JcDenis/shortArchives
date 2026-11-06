@@ -37,5 +37,6 @@ You should add widget to show archives list on your blog.
 * annso (author)
 * Pierre Van Glabeke
 * Jean-Christian Denis (latest)
+* Claude (AI assistant by Anthropic)
 
 You are welcome to contribute to this code.
