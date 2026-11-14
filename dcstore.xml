@@ -7,7 +7,7 @@
     <desc>Display blog archives in an accordion menu, sorted by year</desc>
     <file>https://github.com/JcDenis/shortArchives/releases/download/v2.4/plugin-shortArchives.zip</file>
     <da:dcmin>2.39</da:dcmin>
-    <da:details>https://github.com/JcDenis/shortArchives/src/branch/master/README.md</da:details>
+    <da:details>https://github.com/JcDenis/shortArchives/blob/master/README.md</da:details>
     <da:support>https://github.com/JcDenis/shortArchives/issues</da:support>
   </module>
 </modules>
