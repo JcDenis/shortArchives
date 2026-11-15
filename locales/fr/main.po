@@ -22,3 +22,9 @@ msgstr "Toutes les archives"
 msgid "Display blog archives in an accordion menu, sorted by year"
 msgstr "Afficher les archives du blog dans un menu accordéon, trié par années"
 
+
+msgid "Short archives"
+msgstr "Archives réduites"
+
+msgid "Open the latest year when no year is selected"
+msgstr "Ouvrir l'année la plus récente quand aucune année n'est sélectionnée"
