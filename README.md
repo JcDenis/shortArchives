@@ -12,6 +12,8 @@ _shortArchives_ is a plugin for the open-source web publishing software called [
 
 > Add a public widget that list links to archives by year.
 
+A [user guide in French](https://github.com/JcDenis/shortArchives/blob/master/docs/fr/utilisation.md) is available.
+
 ## REQUIREMENTS
 
 * Dotclear 2.39
@@ -27,6 +29,7 @@ You should add widget to show archives list on your blog.
 
 ## LINKS
 
+* [User guide (in French)](https://github.com/JcDenis/shortArchives/blob/master/docs/fr/utilisation.md)
 * [Packages & details](https://github.com/JcDenis/shortArchives/releases) (or on [Repository](https://dotclear.org/plugin/detail/shortArchives))
 * [Sources & contributions](https://github.com/JcDenis/shortArchives)
 * [Issues & security](https://github.com/JcDenis/shortArchives/issues)
