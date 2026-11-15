@@ -1,22 +1,35 @@
-$(document).ready(function(){
-	if ($(".shortArchives li.open").length == 0) {
-		$(".shortArchives li:first").addClass('open');
-	}
-	$(".shortArchives li:not(.open) ul").hide();
+'use strict';
 
-	$(".shortArchives li span").each( function () {
-		var txt = $(this).text();
-		$(this).replaceWith('<a href="" class="archives-year">' + txt + '<\/a>') ;
-	});
+const shortArchivesInit = () => {
+  for (const widget of document.querySelectorAll('.shortArchives')) {
+    widget.classList.add('shortArchives-js');
 
-	$(".shortArchives li a.archives-year").click(function(){
-		if ($(this).next(".shortArchives li ul:visible").length != 0) {
-			$(".shortArchives li ul:visible").slideUp("normal", function () { $(this).parent().removeClass("open") });
-			$(".shortArchives li:first").removeClass('open');
-		} else {
-			$(".shortArchives li ul").slideUp("normal", function () { $(this).parent().removeClass("open") });
-			$(this).next("ul").slideDown("normal", function () { $(this).parent().addClass("open") });
-		}
-		return false;
-	});
-});
+    for (const year of widget.querySelectorAll('.arch-years > li > span')) {
+      const item = year.parentNode;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'archives-year';
+      button.textContent = year.textContent;
+      button.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
+      year.replaceWith(button);
+
+      button.addEventListener('click', () => {
+        const open = item.classList.contains('open');
+        for (const other of widget.querySelectorAll('.arch-years > li.open')) {
+          other.classList.remove('open');
+          other.querySelector('.archives-year')?.setAttribute('aria-expanded', 'false');
+        }
+        if (!open) {
+          item.classList.add('open');
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+  }
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', shortArchivesInit);
+} else {
+  shortArchivesInit();
+}

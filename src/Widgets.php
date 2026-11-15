@@ -26,13 +26,14 @@ class Widgets
         #Top c
         $w->create(
             My::id(),
-            My::name(),
+            __('Short archives'),
             self::parseWidget(...),
             null,
             __('Blog Archive List an accordion menu, sorted by year')
         )
         ->addTitle(__('Archives'))
         ->setting('postcount', __('With entries counts'), 1, 'check')
+        ->setting('openfirst', __('Open the latest year when no year is selected'), 1, 'check')
         ->setting('allarchivesslinktitle', __('Link to all archives:'), __('All archives'))
         ->addHomeOnly()
         ->addContentOnly()
@@ -72,6 +73,10 @@ class Widgets
                 'date'   => Html::escapeHTML(Date::dt2str(__('%B'), $rs->strField('dt'))),
                 'nbpost' => $rs->intField('nb_post'),
             ];
+        }
+
+        if (is_null($active_year) && $w->get('openfirst')) {
+            $active_year = array_key_first($posts);
         }
 
         $res = '<ul class="arch-years">';

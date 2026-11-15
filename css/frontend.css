@@ -17,10 +17,18 @@
 }
 
 /* année fermée */
-.shortArchives a.archives-year {
-  text-decoration: none;
+.shortArchives-js .arch-years > li:not(.open) > .arch-months {
+  display: none;
 }
-.shortArchives a.archives-year:before {
+.shortArchives button.archives-year {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.shortArchives .archives-year:before {
   padding-right: .5em;
   color: #aaa;
   content: "\25b8";
