@@ -1,7 +1,5 @@
 shortArchives 2.5 - 2026.11.15
 ===========================================================
-* Fix DA URLs
-* Add Claude to contributors
 * [fix] Accordion without jQuery, option to open the latest year, translated widget name
 * [lang] New translations
 * [docs] Add a user guide in French, with screenshots
